@@ -10,7 +10,7 @@ import com.example.tp6_movieapp.R
 import com.example.tp6_movieapp.databinding.ItemRecyclerviewBinding
 import com.example.tp6_movieapp.service.model.Movie
 
-class MoviesAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
+class MoviesAdapter(private val movies: List<Movie>?) : RecyclerView.Adapter<MoviesAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view){
         private val binding = ItemRecyclerviewBinding.bind(view)
@@ -25,10 +25,6 @@ class MoviesAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movi
             Glide.with(view.context)
                 .load(POSTER_PATH_URI + movie.poster_path)
                 .into(binding.moviePoster)
-
-            Glide.with(view.context)
-                .load("https://affaso.com/5-point-stars-png-star-icon-flat-11562958768wpf63hu4tq/")
-                .into(binding.starIcon)
         }
 
         companion object{
@@ -45,10 +41,10 @@ class MoviesAdapter(private val movies: List<Movie>) : RecyclerView.Adapter<Movi
     }
 
     override fun getItemCount(): Int {
-        return movies.size
+        return movies!!.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(movies[position])
+        holder.bind(movies!![position])
     }
 }

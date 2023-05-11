@@ -1,7 +1,9 @@
 package com.example.tp6_movieapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
@@ -9,6 +11,9 @@ import com.example.tp6_movieapp.adapter.MoviesAdapter
 import com.example.tp6_movieapp.database.MovieDatabaseImpl
 import com.example.tp6_movieapp.database.MovieRoomDatabase
 import com.example.tp6_movieapp.databinding.ActivityListBinding
+import com.example.tp6_movieapp.databinding.EmptyStateBinding
+import com.example.tp6_movieapp.dialogFragment.FragmentError
+import com.example.tp6_movieapp.emptyData.EmptyDataObserver
 import com.example.tp6_movieapp.mvvm.contract.MainContract
 import com.example.tp6_movieapp.mvvm.model.MainModel
 import com.example.tp6_movieapp.mvvm.viewModel.MainViewModel
@@ -27,6 +32,11 @@ class ListActivity : AppCompatActivity() {
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.backButton.setOnClickListener{
+            val intent = Intent(this,MainActivity::class.java)
+            startActivity(intent)
+        }
+
         val dataBase: MovieRoomDatabase by lazy {
             Room.databaseBuilder(this, MovieRoomDatabase::class.java, "movie-DataBase")
                 .build()
@@ -44,6 +54,7 @@ class ListActivity : AppCompatActivity() {
         get(MainViewModel::class.java)
 
         viewModel.getValue().observe(this){updateUI(it)}
+
     }
 
     private fun updateUI(x: MainViewModel.MainData){
@@ -51,7 +62,16 @@ class ListActivity : AppCompatActivity() {
         when(x.mainStatus){
             MainViewModel.MainStatus.SHOW_INFO ->{
                 binding.recyclerView.layoutManager = LinearLayoutManager(this)
-                binding.recyclerView.adapter = MoviesAdapter(x.movies)
+                val moviesAdapter = MoviesAdapter(x.movies)
+                binding.recyclerView.adapter = moviesAdapter
+
+                val hola = EmptyStateBinding.inflate(layoutInflater)
+                val emptyDataObserver = EmptyDataObserver(binding.recyclerView, hola.root)
+                moviesAdapter.registerAdapterDataObserver(emptyDataObserver)
+            }
+            MainViewModel.MainStatus.SHOW_DIALOG ->{
+                val fragmentError = FragmentError.newInstance()
+                fragmentError.show(supportFragmentManager, "error")
             }
         }
     }

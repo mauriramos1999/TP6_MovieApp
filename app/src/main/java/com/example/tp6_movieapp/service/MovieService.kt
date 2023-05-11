@@ -1,5 +1,7 @@
 package com.example.tp6_movieapp.service
 
+import androidx.fragment.app.FragmentManager
+import com.example.tp6_movieapp.dialogFragment.FragmentError
 import com.example.tp6_movieapp.service.model.MovieList
 import com.example.tp6_movieapp.util.CoroutineResult
 

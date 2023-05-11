@@ -6,6 +6,33 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/appTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/mainActivityText"
+        android:text="TP6_MovieApp"
+        android:textSize="@dimen/titleTextSize"
+        android:maxWidth="@dimen/maxWidthText"
+        app:layout_constraintBottom_toTopOf="@id/buttonMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_description"
+        style="@style/mainActivityText"
+        android:textSize="@dimen/titleTextSize"
+        android:maxWidth="@dimen/maxWidthText"
+        app:layout_constraintBottom_toTopOf="@id/buttonMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appTitle"
+        />
+
     <Button
         android:id="@+id/buttonMain"
         android:layout_width="wrap_content"

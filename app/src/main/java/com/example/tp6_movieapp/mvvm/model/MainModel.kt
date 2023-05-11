@@ -20,7 +20,7 @@ class MainModel(private val movieService: MovieService,
             }
             is CoroutineResult.Failure ->{
                 //CoroutineResult.Success(database.getAllMovies())
-                TODO()
+                CoroutineResult.Failure(movies.exception)
             }
         }
     }
